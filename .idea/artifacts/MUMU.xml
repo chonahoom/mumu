@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="MUMU">
+    <output-path>$PROJECT_DIR$/classes/artifacts/MUMU</output-path>
+    <root id="archive" name="MUMU.war">
+      <element id="artifact" artifact-name="MUMU:war exploded" />
+    </root>
+  </artifact>
+</component>

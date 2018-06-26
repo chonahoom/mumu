@@ -1,0 +1,27 @@
+.col-md-4 {
+    border: 1px solid #dddddd;
+    text-align: center;
+    margin-left: 2.5px;
+    margin-right: 2.5px;
+    margin-bottom: 10px;
+    min-height: 350px;
+    max-width: 250px;
+    cursor: pointer;
+}
+
+.col-md-12 {
+    margin-top: 40px;
+}
+
+img {
+    margin-top: 40px;
+    width: 100px;
+}
+
+.menu-title {
+    margin-top: 40px;
+}
+
+.menu-description {
+    margin-top: 20px;
+}

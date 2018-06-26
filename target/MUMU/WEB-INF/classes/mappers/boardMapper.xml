@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rmobile.esss.mapper.BoardMapper">
+
+    <!--insert history-->
+    <insert id="create">
+        INSERT INTO historyTbl (
+            historyWriter
+            , historyTitle
+            , historyTerm
+            , historyVersion
+            , historyYear
+        ) VALUES (
+            #{historyWriter}
+            , #{historyTitle}
+            , #{historyTerm}
+            , #{historyVersion}
+            , #{historyYear}
+        )
+    </insert>
+
+    <!--insert content-->
+    <insert id="inputContent">
+          INSERT INTO contentTbl(
+            historyNumber
+            , taskNumber
+            , taskType
+            , taskWeight
+            , taskDate
+            , taskGoalTitle
+            , taskGoalDescription
+            , taskCompetency
+            , taskRate
+            , taskEvaluationComment
+          ) VALUES(
+            (SELECT historyNumber
+              FROM historyTbl
+              ORDER BY historyNumber DESC LIMIT 1
+			)
+			, #{taskNumber}
+			, #{taskType}
+			, #{taskWeight}
+			, #{taskDate}
+			, #{taskGoalTitle}
+			, #{taskGoalDescription}
+			, #{taskCompetency}
+			, #{taskRate}
+			, #{taskEvaluationComment}
+          )
+
+    </insert>
+
+    <!--insert competency-->
+    <insert id="insertCompetency">
+        INSERT INTO competencyTbl (
+            historyNumber
+            , competencyTitle
+            , overallPerformanceComment
+            , competencyRate
+        ) VALUES (
+            (SELECT historyNumber
+              FROM historyTbl
+              ORDER BY historyNumber DESC LIMIT 1
+			)
+			, #{competencyTitle}
+			, #{overallPerformanceComment}
+			, #{competencyRate}
+        )
+    </insert>
+
+    <!--read-->
+    <select id="read" resultType="BoardVO">
+       SELECT
+        h.historyNumber as historyNumber
+        , u.name as historyWriter
+        , h.historyTitle as historyTitle
+        , h.historyTerm as historyTerm
+        , h.historyVersion as historyVersion
+        , h.historyYear as historyYear
+        , h.historyUpdatedDate as historyUpdatedDate
+      FROM
+        historyTbl h
+        , userTbl u
+       WHERE historyNumber = #{historyNumber} and historyWriter = employeeNumber
+    </select>
+    <select id="readContent" resultType="ContentVO">
+        SELECT *
+        FROM contentTbl
+        WHERE historyNumber = #{historyNumber}
+    </select>
+
+    <select id="readCompetencies" resultType="CompetencyVO">
+        SELECT *
+        FROM competencyTbl
+        WHERE historyNumber = #{historyNumber}
+    </select>
+
+    <!--current history number-->
+    <select id="getHistoryNumber" resultType="BoardVO">
+        SELECT historyNumber
+        FROM historyTbl
+        ORDER BY historyNumber DESC LIMIT 1
+    </select>
+
+    <!--/-/-/-/-/-/-/-/-/-/-/-/-/-//-/-/-/-/-/-/-/-/-/-/-/-/-/update/-/-/-/-/-/-/-/-/-/-/-/-/-//-/-/-/-/-/-/-/-/-/-/-/-/-/-->
+    <update id="update">
+        UPDATE historyTbl
+        SET
+              historyTitle = #{historyTitle}
+        WHERE historyNumber   = #{historyNumber}
+    </update>
+
+    <update id="contentUpdate">
+        UPDATE contentTbl
+        SET
+              taskType           = #{taskType}
+              ,taskWeight             = #{taskWeight}
+              ,taskDate               = #{taskDate}
+              ,taskGoalTitle         = #{taskGoalTitle}
+              ,taskGoalDescription   = #{taskGoalDescription}
+              ,taskCompetency         = #{taskCompetency}
+              ,taskRate               = #{taskRate}
+              ,taskEvaluationComment = #{taskEvaluationComment}
+        WHERE historyNumber   = #{historyNumber} and contentNumber = #{contentNumber}
+    </update>
+
+    <update id="competencyUpdate">
+        UPDATE competencyTbl
+        SET
+              competencyTitle             = #{competencyTitle}
+              ,overallPerformanceComment  = #{overallPerformanceComment}
+              ,competencyRate             = #{competencyRate}
+        WHERE  historyNumber           = #{historyNumber}
+    </update>
+
+    <!--/-/-/-/-/-/-/-/-/-/-/-/-/-//-/-/-/-/-/-/-/-/-/-/-/-/-/update end/-/-/-/-/-/-/-/-/-/-/-/-/-//-/-/-/-/-/-/-/-/-/-/-/-/-/-->
+
+
+    <!--/-/-/-/-/-/-/-/-/-/-/-/-/-//-/-/-/-/-/-/-/-/-/-/-/-/-/delete/-/-/-/-/-/-/-/-/-/-/-/-/-//-/-/-/-/-/-/-/-/-/-/-/-/-/-->
+    <delete id="historyDelete">
+        DELETE FROM historyTbl
+        WHERE historyNumber = #{historyNumber}
+    </delete>
+
+    <delete id="contentDelete">
+        DELETE FROM contentTbl
+        WHERE historyNumber = #{historyNumber}
+    </delete>
+
+    <delete id="competencyDelete">
+        DELETE FROM competencyTbl
+        WHERE historyNumber = #{historyNumber}
+    </delete>
+    <!--/-/-/-/-/-/-/-/-/-/-/-/-/-//-/-/-/-/-/-/-/-/-/-/-/-/-/delete end/-/-/-/-/-/-/-/-/-/-/-/-/-//-/-/-/-/-/-/-/-/-/-/-/-/-/-->
+
+    <!--list-->
+    <select id="list" resultType="BoardVO">
+        <![CDATA[
+        SELECT
+           *
+        FROM historyTbl
+        WHERE historyNumber > 0
+        ORDER BY historyNumber DESC, historyUpdatedDate DESC
+        ]]>
+    </select>
+
+    <!--list paging-->
+    <select id="listPaging" resultType="BoardVO">
+        <![CDATA[
+      SELECT
+        h.historyNumber as historyNumber
+        , u.name as historyWriter
+        , h.historyTitle as historyTitle
+        , h.historyTerm as historyTerm
+        , h.historyVersion as historyVersion
+        , h.historyYear as historyYear
+        , h.historyUpdatedDate as historyUpdatedDate
+      FROM
+        historyTbl h
+        , userTbl u
+      WHERE
+          u.employeeNumber = #{employeeNumber} and h.historyWriter = u.employeeNumber
+      OR  u.name = #{memberName} and h.historyWriter = u.employeeNumber
+        ]]>
+        <![CDATA[
+        ORDER BY historyNumber DESC, historyUpdatedDate DESC
+        LIMIT #{pageStart}, #{perPageNum}
+        ]]>
+    </select>
+
+
+    <!--article total number-->
+    <select id="listCount" resultType="int">
+        <![CDATA[
+        SELECT COUNT(historyNumber)
+        FROM historyTbl
+        WHERE historyNumber > 0
+        AND historyWriter = #{employeeNumber}
+        ]]>
+    </select>
+
+</mapper>

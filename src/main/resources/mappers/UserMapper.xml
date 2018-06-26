@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rmobile.esss.mapper.UserMapper">
+    <!--checking ID-->
+    <select id="checkExistingId" resultType="UserVO">
+        SELECT *
+        FROM userTbl
+        WHERE employeeNumber = #{employeeNumber}
+    </select>
+
+    <!--register-->
+    <insert id="register">
+        INSERT INTO userTbl(
+        employeeNumber
+        , password
+        , name
+        , supervisorNumber
+        ) VALUES (
+        #{employeeNumber}
+        , hex(aes_encrypt(#{password},'skeks'))
+        , #{name}
+        , #{supervisorNumber}
+        )
+    </insert>
+
+    <!--checking logined-->
+    <select id="login" resultType="UserVO">
+        SELECT *
+        FROM userTbl
+        WHERE
+          employeeNumber = #{employeeNumber}
+          AND password = hex(aes_encrypt(#{password},'skeks'))
+    </select>
+
+    <!--keeping login-->
+    <update id="keepLogin">
+        UPDATE userTbl
+        SET
+            sessionKey     = #{sessionId}
+            , sessionLimit  = #{next}
+        WHERE employeeNumber = #{employeeNumber}
+    </update>
+
+    <!--Session Key confirm-->
+    <select id="checkUserWithSessionKey" resultType="UserVO">
+        SELECT *
+        FROM userTbl
+        WHERE sessionKey = #{value}
+              AND sessionLimit > NOW()
+    </select>
+
+    <!--employee num -> name-->
+    <select id="fineName" resultType="UserVO">
+        SELECT name
+        FROM userTbl
+        WHERE employeeNumber = #{historyWriter}
+    </select>
+
+    <!--get Member's EmployeeNumber & Name-->
+    <select id="getMembers" resultType="MemberVO">
+        SELECT
+           employeeNumber
+           , name
+        FROM userTbl
+        WHERE supervisorNumber = #{employeeNumber}
+    </select>
+
+    <!--upadate User Information-->
+    <update id="updateUser">
+        UPDATE userTbl
+        SET
+            password          = hex(aes_encrypt(#{password},'skeks'))
+            , name            = #{name}
+            , supervisorNumber  = #{supervisorNumber}
+        WHERE employeeNumber    = #{employeeNumber}
+    </update>
+
+</mapper>
