@@ -28,7 +28,7 @@
                 <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input type="text" name="name" class="form-control" placeholder="name   [ex) nahoom.jo]">
+                <input type="text" name="name" class="form-control" placeholder="Intra ID [ex) nahoom.jo]">
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">

@@ -3,11 +3,8 @@
 <html>
 <%--head.jsp--%>
 <%@ include file="../include/head.jsp" %>
+<script src="/dist/js/sessionCheck.js"></script>
 <script>
-    window.onload = function(){
-        if("${sessionScope.userLoginInfo.name}" === '')
-            location.href="/user/login";
-    }
     function memberClick(a, b) {
         var rsa = new RSAKey();
         var path;
@@ -30,10 +27,6 @@
                 Member's History
                 <small></small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="/"><i class="fa fa-dashboard"></i> home</a></li>
-                <li class="active">member's history</li>
-            </ol>
         </section>
         <%-- Main content --%>
         <section class="content container-fluid">

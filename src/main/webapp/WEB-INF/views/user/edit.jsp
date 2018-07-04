@@ -2,12 +2,7 @@
 <!DOCTYPE html>
 <html>
 <%@ include file="../include/head.jsp" %>
-<script>
-    window.onload = function(){
-        if("${sessionScope.userLoginInfo.name}" == '')
-            location.href="/user/login";
-    }
-</script>
+<script src="/dist/js/sessionCheck.js"></script>
 <script src="/dist/js/user/editValueCheck.js"></script>
 <body class="hold-transition register-page">
 <div class="register-box">

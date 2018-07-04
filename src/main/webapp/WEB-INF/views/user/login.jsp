@@ -3,6 +3,7 @@
 <html>
 <%@ include file="../include/head.jsp" %>
 <script src="/dist/js/user/loginValueCheck.js"></script>
+<script src="/dist/js/sessionCheck.js"></script>
 
 <body class="hold-transition login-page">
 <div class="login-box">

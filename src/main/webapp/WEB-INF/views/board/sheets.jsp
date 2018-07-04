@@ -11,6 +11,7 @@
         addSheet();
     }
 </script>
+<link rel="stylesheet" href="/dist/css/board/date.css">
 <body class="hold-transition skin-red-light sidebar-mini layout-boxed">
 <div class="wrapper">
     <%-- Main Header --%>
@@ -23,12 +24,7 @@
         <section class="content-header">
             <h1>
                 Evaluation Sheet
-                <small></small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="<c:url value="/"/>"><i class="fa fa-dashboard"></i>home</a></li>
-                <li class="active">create sheet</li>
-            </ol>
         </section>
         <%-- Main content --%>
         <section class="content container-fluid">
@@ -36,10 +32,14 @@
                 <form role="form" method="post" name="evaluationForm" action="<c:url value="/board/sheets"/>">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <label for="historyYear"><span>Title Setting *　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</span></label>
+                            <label for="historyYear" style="width:100%">Title Setting </label>
                             <div class="form-group col-sm-4">
                                 <select class="form-control" name="historyYear" id="historyYear">
-                                    <option value="2018">2018</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2018" selected>2018</option>
                                     <option value="2017">2017</option>
                                     <option value="2016">2016</option>
                                     <option value="2015">2015</option>
@@ -50,16 +50,6 @@
                                     <option value="2010">2010</option>
                                     <option value="2009">2009</option>
                                     <option value="2008">2008</option>
-                                    <option value="2007">2007</option>
-                                    <option value="2006">2006</option>
-                                    <option value="2005">2005</option>
-                                    <option value="2004">2004</option>
-                                    <option value="2003">2003</option>
-                                    <option value="2002">2002</option>
-                                    <option value="2001">2001</option>
-                                    <option value="2000">2000</option>
-                                    <option value="1999">1999</option>
-                                    <option value="1998">1998</option>
                                 </select>
                             </div>
                             <div class="form-group col-sm-4">
@@ -70,7 +60,7 @@
                             </div>
                             <div class="form-group col-sm-4">
                                 <select class="form-control" name="historyVersion" id="historyVersion">
-                                    <option value="0">Goal Setting</option>
+                                    <option value="0" selected>Goal Setting</option>
                                     <option value="1">Mid-term Evaluation</option>
                                     <option value="2">Final Evaluation</option>
                                 </select>
@@ -81,17 +71,20 @@
                             <div id="box-body">
                                 <label for="box-body" style="background-color: #9cc2cb; width: 100%;"><span
                                         id="task_cnt">　TASK</span></label>
-                                <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-3">
                                     <select class="form-control" name="taskTypeTemp" id="taskTypeTemp">
                                         <option value="0">Main</option>
                                         <option value="1">Additional</option>
                                     </select>
                                 </div>
-                                <div class="form-group col-sm-4">
-                                    <input type="text" class="form-control" name="taskDateTemp" id="taskDate"
-                                           placeholder="YYYY-MM-DD ~ YYYY-MM-DD *">
+                                <div class="form-group col-sm-6">
+                                    <div class="input-daterange input-group form-group" id="mydate">
+                                        <input type="text" class="input-sm form-control taskDateStartTemp" name="taskDateStartTemp" placeholder="start date"  onfocus="(this.type='date')" id="start" value="" style="height: 34px">
+                                        <span class="input-group-addon">to</span>
+                                        <input type="text" class="input-sm form-control taskDateEndTemp" name="taskDateEndTemp" placeholder="end date" onfocus="(this.type='date')" id="end" value="" style="height: 34px">
+                                    </div>
                                 </div>
-                                <div class="form-group col-sm-4">
+                                <div class="form-group col-sm-3">
                                     <select class="form-control" name="taskWeightTemp" id="taskWeight">
                                         <option value="0">Weight ( %)</option>
                                         <option value="100">100%</option>
@@ -116,11 +109,11 @@
                                         <option value="5">5%</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="taskGoalTitle">Goal Title *</label>
+                                <div class="form-group form-group col-sm-12">
+                                    <label for="taskGoalTitle">Goal Title </label>
                                     <input type="text" class="form-control" name="taskGoalTitleTemp" id="taskGoalTitle">
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group col-sm-12">
                                     <label for="taskGoalDescription">Goal Description</label>
                                     <textarea class="form-control" name="taskGoalDescriptionTemp" id="taskGoalDescription" rows="15"
                                               style="resize: none">[Issue. Gap]
@@ -132,7 +125,7 @@
 [Tasks '-':Must. '+']
 </textarea>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group col-sm-12">
                                     <label for="taskEvaluationComment">Evaluation comments by Self</label>
                                     <textarea class="form-control" name="taskEvaluationCommentTemp" id="taskEvaluationComment" placeholder=" " rows="8"
                                               style="resize: none">[Result]
@@ -141,12 +134,13 @@
 
 [Problem]
 
-[Try}
+[Try]
 </textarea>
                                 </div>
-                                <div class="form-group col-sm">
+                                <div class="form-group col-sm-12">
                                     <label for="taskRate">Rating by Self (evaluation)</label>
                                     <select class="form-control" name="taskRateTemp" id="taskRate">
+                                        <option value="0"> - </option>
                                         <option value="7">7.0 - 140% and above of expected level</option>
                                         <option value="6">6.0 - Between 120% - 140% of expected level</option>
                                         <option value="5">5.0 - Between 110% - 120% of expected level</option>
@@ -164,13 +158,13 @@
                                 <input type="hidden" name="historyWriterName" value="${sessionScope.userLoginInfo.name}">
                             </div>
                             <div id="remove_img">
-                                <img onclick="removeSheet()" src="/dist/img/remove.png" style="width:20px; margin-left:8px;  float:right; cursor: pointer;" alt="remove image">
+                                <img onclick="removeSheet()" src="/dist/img/remove.png" style="width:20px; margin-left:8px; margin-right:10px; float:right; cursor: pointer;" alt="remove image">
                             </div>
                             <div id="add_img">
-                                <img onclick="addSheet()" src="/dist/img/add.png" style="width:20px; float:right; cursor: pointer;" alt="add image">
+                                <img onclick="addSheet()" src="/dist/img/add.png" style="width:20px;  float:right; cursor: pointer;" alt="add image">
                             </div>
                             <%--****************************************************ADD ZONE END*****************************************************--%>
-                            <div class="form-group" id="competency_area">
+                            <div class="form-group col-sm-12" id="competency_area">
                                 <br/><br/>
                                 <hr>
                                 <label for="taskCompetency" style="background-color: #DC143C; width: 100%;">
@@ -188,6 +182,7 @@
                                 <div class="form-group col-sm">
                                     <label for="competencyTitle">Five Principles</label>
                                     <select class="form-control" name="competencyTitle" id="competencyTitle">
+                                        <option value="0"> - </option>
                                         <option value="5">Always Improve, Always Advance</option>
                                         <option value="4">Passionately Professional</option>
                                         <option value="3">Hypothesize → Practice → Validate → Shikumika</option>
@@ -198,6 +193,7 @@
                                 <div class="form-group col-sm">
                                     <label for="competencyRate">Rating by Self (principle)</label>
                                     <select class="form-control" name="competencyRate" id="competencyRate">
+                                        <option value="0"> - </option>
                                         <option value="5">5.0 - Consistently meets expectations required at the next
                                             grade level or higher.
                                         </option>
@@ -215,7 +211,7 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group col-sm">
                                     <label for="overallPerformanceComment">Overall performance Comments</label>
                                     <textarea class="form-control" name="overallPerformanceComment"
                                               id="overallPerformanceComment" placeholder=" " rows="8"
@@ -225,14 +221,14 @@
 
 [Problem]
 
-[Try}
+[Try]
 </textarea>
                                 </div>
                             </div>
                         </div>
                         <div class="box-footer">
-                            <button type="reset" class="btn btn-primary"> reset</button>
-                            <input type="button" class="btn btn-success " onclick="checkFormValidity()" value=" save ">
+                            <input type="button" class="btn btn-danger" id="resetBtn" value="reset">
+                            <input type="button" class="btn btn-success " onclick="checkFormValidity()" value=" save " style="float: right">
                         </div>
                     </div>
                 </form>
@@ -248,5 +244,7 @@
 <%--plugin_js.jsp--%>
 <%@ include file="../include/plugin_js.jsp" %>
 <script src="/dist/js/board/sheetsValueResetSetting.js"></script>
+<script>
+</script>
 </body>
 </html>

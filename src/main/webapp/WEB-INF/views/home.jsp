@@ -1,37 +1,23 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-
 <!DOCTYPE html>
-
 <html>
-
 <%--head.jsp--%>
 <%@ include file="include/head.jsp" %>
 <link rel="stylesheet" href="/dist/css/home.css">
 <body class="hold-transition skin-red-light sidebar-mini layout-boxed">
 <div class="wrapper">
-
-    <%--main_header.jsp--%>
     <%-- Main Header --%>
-    <%@ include file="include/main_header.jsp" %>
-
-    <%--left_column.jsp--%>
-    <%-- Left side column. contains the logo and sidebar --%>
-
+    <%@ include file="./include/main_header.jsp" %>
     <%-- Content Wrapper. Contains page content --%>
     <div class="content-wrapper" style="margin-left: 0; height: 100%">
-
         <%-- Content Header (Page header) --%>
         <section class="content-header">
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> home</a></li>
-            </ol>
         </section>
-
         <%-- Main content --%>
-        <section class="content container-fluid" style="width: 797px; min-height: 700px; margin: 50px auto;">
+        <section class="content container-fluid" style="width: 64%; min-height: 700px; margin: 50px auto;">
             <h3><b>Evaluation System Support Service</b></h3> <br>
 
-            <p>
+            <p style="width: 100%; word-wrap: normal;">
                 This project is a web aplication / service that allows version control of the evaluation sheet by
                 allowing the Supervisors and Team-members to <b>input</b>, <b>edit</b> and <b>view</b> the history of
                 the evaluation sheet.
@@ -71,7 +57,6 @@
     </div>
     <%-- /.content-wrapper --%>
 
-    <%--main_footer.jsp--%>
     <%-- Main Footer --%>
     <footer class="main-footer" style="margin-left: 0;">
         <%-- To the right --%>
@@ -83,7 +68,6 @@
 </div>
 <%-- ./wrapper --%>
 
-<%--plugin_js.jsp--%>
 <%@ include file="include/plugin_js.jsp" %>
 <script>
     $(document).ready(function () {

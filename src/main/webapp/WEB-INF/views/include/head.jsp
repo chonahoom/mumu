@@ -30,4 +30,10 @@
     <script src="/dist/js/rsa/prng4.js"></script>
     <script src="/dist/js/rsa/rng.js"></script>
     <script src="/dist/js/rsa/rsa.js"></script>
+
+    <%--checking device--%>
+    <script src="/dist/js/mobileCheck.js"></script>
+
+    <%--ban back--%>
+    <script src="/dist/js/banBack.js"></script>
 </head>

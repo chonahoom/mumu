@@ -1,9 +1,9 @@
-<jsp:useBean id="exception" scope="request" type=""/>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <%--head.jsp--%>
 <%@ include file="../include/head.jsp" %>
+<script src="/dist/js/sessionCheck.js"></script>
 <body class="hold-transition skin-red-light sidebar-mini layout-boxed">
 <div class="wrapper">
     <%-- Main Header --%>
@@ -17,10 +17,6 @@
             <h1>
                 ERROR
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> error</a></li>
-                <li class="active">exception</li>
-            </ol>
         </section>
         <%-- Main content --%>
         <section class="content container-fluid">

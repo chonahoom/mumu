@@ -3,11 +3,9 @@
 <html>
 <%--head.jsp--%>
 <%@ include file="../include/head.jsp" %>
+<script src="/dist/js/sessionCheck.js"></script>
+<script src="/dist/js/board/historySelectMyOrMember.js"></script>
 <script>
-    window.onload = function(){
-        if("${sessionScope.userLoginInfo.name}" === '')
-            location.href="/user/login";
-    }
     function sheetClick(a, b) {
         var rsa = new RSAKey();
         var path;
@@ -31,19 +29,11 @@
                     <h1>
                             ${memberStory.memberName}'s History
                     </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="<c:url value="/"/>"><i class="fa fa-dashboard"></i> home</a></li>
-                        <li class="active">${memberStory.memberName}'s history</li>
-                    </ol>
                 </c:when>
                 <c:otherwise>
                     <h1>
                         My History
                     </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="<c:url value="/"/>"><i class="fa fa-dashboard"></i> home</a></li>
-                        <li class="active">my history</li>
-                    </ol>
                 </c:otherwise>
             </c:choose>
         </section>
@@ -60,7 +50,6 @@
                             <table class="table table-bordered">
                                 <tbody>
                                 <tr>
-                                    <th style="width: 10px">NO</th>
                                     <th>Subject</th>
                                     <th style="width: 100px">Writer</th>
                                     <th style="width: 150px">Create date</th>
@@ -69,10 +58,8 @@
                                     <c:when test="${list != NULL && list != '[]'}">
                                         <c:forEach var="boardVO" varStatus="i" items="${list}">
                                             <tr>
-                                                <td>${boardVO.historyNumber}</td>
                                                 <td>
-                                                    <a href="#"
-                                                       onclick="sheetClick('/board/views${pageMaker.makePage(pageMaker.criteria.page)}&historyNumber=','${boardVO.historyNumber}')">${boardVO.historyTitle}</a>
+                                                    <a href="#" id="pagePath" onclick="sheetClick('/board/views${pageMaker.makePage(pageMaker.criteria.page)}&historyNumber=','${boardVO.historyNumber}')">${boardVO.historyTitle}</a>
                                                 </td>
                                                 <td>${boardVO.historyWriter}</td>
                                                 <td><fmt:formatDate pattern="yyyy-MM-dd"
@@ -99,11 +86,13 @@
                                         <a href="/board/sheet-historys${pageMaker.makePage(pageMaker.startPage - 1)}">&laquo;</a>
                                     </li>
                                 </c:if>
+
                                 <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
                                     <li <c:out value="${pageMaker.criteria.page == idx? 'class=active':''}"/>>
-                                        <a href="/board/sheet-historys${pageMaker.makePage(idx)}">${idx}</a>
+                                        <a onclick="gotoMyhistoryOrMemberHistory('${list[0].historyWriter}','${sessionScope.userLoginInfo.name}','${idx}')">${idx}</a>
                                     </li>
                                 </c:forEach>
+
                                 <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
                                     <li>
                                         <a href="/board/sheet-historys${pageMaker.makePage(pageMaker.endPage + 1)}">&raquo;</a>
